@@ -1,0 +1,66 @@
+#:kivy 1.8.0
+
+<timerWidget>:
+    labeldatetime: labeldatetimeval
+    username: usernamelabel
+    buttoncount: buttoncountval
+    buttonquit:quitbutton
+    nametext: text_box
+    agetext: age_text
+
+    #Labeldatetime
+    Label:
+        id: labeldatetimeval
+        font_size: 50
+        center_x: (root.width/2)
+        top: root.top
+        text: 'time'
+    Label:
+        id: usernamelabel
+        font_size: 50
+        center_x: (root.width/5)
+        size: 100, 70
+        top: root.top-90
+        text:'name'
+    Label:
+        id: agelabel
+        font_size: 50
+        center_x: (root.width/5)
+        size: 100, 70
+        top: root.top-180
+        text:'age'
+
+    #buttoncount
+    Button:
+        id: buttoncountval
+        font_size: 50
+        center_x: (root.width/4)
+        size: 140,70
+        top: root.top-270
+        text: 'Click!'
+    Button:
+        id: quitbutton
+        font_size: 50
+        center_x: (root.width/4 * 3)
+        size: 140,70
+        top: root.top-270
+        text: 'Quit!'
+
+    #TextInput
+    TextInput:
+        id: text_box
+        size: 250,70
+        center_x: (root.width/2)
+        font_size: 50
+        top: root.top-90
+        focus: True
+        on_text_validate: root.buttonClicked()
+
+    TextInput:
+        id: age_text
+        size: 100,70
+        center_x: (root.width/10 * 4)
+        font_size: 50
+        top: root.top-180
+        focus: True
+        on_text_validate: root.buttonClicked()
