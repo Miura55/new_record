@@ -7,9 +7,9 @@ ScreenManagement:
 
 <MainScreen>:
 	name: "main"
-    # labeldatetime: labeldatetimeval
+    labeldatetime: exnumber
     # username: usernamelabel
-    # buttoncount: buttoncountval
+    buttoncount: buttoncountval
     # buttonquit:quitbutton
     # nametext: text_box
     # agetext: age_text
@@ -20,7 +20,9 @@ ScreenManagement:
 		on_release: app.root.current = "other"
 		text: "Next Screen"
         pos_hint: {"right":1, "top":1}
+	get_Info
     Button:
+		id: buttoncountval
         font_size: 25
         center_x: (root.width/2)
         size_hint: 0.15, 0.1
@@ -36,7 +38,7 @@ ScreenManagement:
         top: root.top-90
         text:'name'
     Label:
-        id: agelabel
+        id: exnumber
         font_size: 25
         center_x: (root.width/4)
         size_hint: 0.15, 0.1
