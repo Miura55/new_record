@@ -1,0 +1,77 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+	transition: FadeTransition()
+	MainScreen:
+	AnotherScreen:
+
+<MainScreen>:
+	name: "main"
+    # labeldatetime: labeldatetimeval
+    # username: usernamelabel
+    # buttoncount: buttoncountval
+    # buttonquit:quitbutton
+    # nametext: text_box
+    # agetext: age_text
+	Button:
+        color: 0,0,1,1
+        font_size: 25
+        size_hint: 0.3, 0.2
+		on_release: app.root.current = "other"
+		text: "Next Screen"
+        pos_hint: {"right":1, "top":1}
+    Button:
+        font_size: 25
+        center_x: (root.width/2)
+        size_hint: 0.15, 0.1
+        top: root.top-270
+        text: 'Start'
+
+    #Labeldatetime
+    Label:
+        id: usernamelabel
+        font_size: 25
+        center_x: (root.width/4)
+        size_hint: 0.15, 0.1
+        top: root.top-90
+        text:'name'
+    Label:
+        id: agelabel
+        font_size: 25
+        center_x: (root.width/4)
+        size_hint: 0.15, 0.1
+        top: root.top-180
+        text:'experiment number'
+
+    #TextInput
+    TextInput:
+        id: text_box
+        size_hint: 0.3, 0.08
+        center_x: (root.width/2)
+        font_size: 25
+        top: root.top-90
+        focus: True
+        on_text_validate: root.buttonClicked()
+
+    TextInput:
+        id: age_text
+        size_hint: 0.3, 0.08
+        center_x: (root.width/2)
+        font_size: 25
+        top: root.top-180
+        focus: True
+        on_text_validate: root.buttonClicked()
+
+
+<AnotherScreen>:
+	name: "other"
+
+	FloatLayout:
+		Painter
+		Button:
+			color: 0,1,0,1
+			font_size: 25
+			size_hint: 0.3,0.2
+			text: "Back Home"
+			on_release: app.root.current = "main"
+			pos_hint: {"right":1, "top":1}
