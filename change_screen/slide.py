@@ -5,11 +5,9 @@ from kivy.properties import ObjectProperty
 
 from kivy.uix.widget import Widget
 from kivy.graphics import Line
+from datetime import datetime
 
-class get_Info(Widget):
-    def on_touch_down(self, touch):
-        labeldatetime = ObjectProperty(None)
-        buttoncount = ObjectProperty(None)
+
 
 class Painter(Widget):
     def on_touch_down(self, touch):
@@ -20,7 +18,23 @@ class Painter(Widget):
         touch.ud["line"].points += [touch.x, touch.y]
 
 class MainScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(MainScreen, self).__init__(**kwargs)
+    # def on_touch_down(self, touch):
+    #     labeldatetime = ObjectProperty(None)
+    #     buttoncount = ObjectProperty(None)
+    def buttoncount_clicked(self):
+        now = datetime.now()
+        self.now_ = now.strftime('%Y,%m,%d  %H:%M:%S')
+        # self.labeldatetime.text = s1tr(self.root.now_)
+        nowtime = self.now_
+        name_ = self.nametext.text
+        age_ = self.agetext.text
+        profile = [nowtime,'\n', name_,'\n', age_]
+        name_file = nowtime + '.txt'
+        with open(name_file, 'w') as f:
+            f.writelines(profile)
+
 
 class AnotherScreen(Screen):
     pass
@@ -30,20 +44,9 @@ class ScreenManagement(ScreenManager):
 
 presentation = Builder.load_file("layout.kv")
 
-class MainApp(App):
+class ExperimentApp(App):
     def build(self):
         return presentation
-    def buttoncount_clicked(self, src):
-        now = datetime.now()
-        self.root.now_ = now.strftime('%Y,%m,%d  %H:%M:%S')
-        self.root.labeldatetime.text = str(self.root.now_)
-        nowtime = self.root.labeldatetime.text
-        name_ = self.root.nametext.text
-        age_ = self.root.agetext.text
-        profile = [nowtime,'\n', name_,'\n', age_]
-        name_file = nowtime + '.txt'
-        with open(name_file, 'w') as f: #書き込みモードでオープン
-            f.writelines(profile)
 
 if __name__ == '__main__':
-    MainApp().run()
+    ExperimentApp().run()
