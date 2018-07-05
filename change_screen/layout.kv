@@ -20,7 +20,7 @@ ScreenManagement:
     Button:
         font_size: 25
         center_x: (root.width/2)
-		on_release: root.buttoncount_clicked()
+		on_release: root.get_Info()
         size_hint: 0.15, 0.1
         top: root.top-270
         text: 'Start'
@@ -63,7 +63,6 @@ ScreenManagement:
 	name: "other"
 
 	FloatLayout:
-		# Painter
 		Button:
 			color: 0,1,0,1
 			font_size: 25
