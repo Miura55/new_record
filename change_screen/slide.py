@@ -12,9 +12,8 @@ from time import sleep
 
 
 class StartScreen(Screen):
-    def __init__(self, **kwargs):
-        super(StartScreen, self).__init__(**kwargs)
     def get_Info(self):
+        global presentation
         global fileFolder
         now = datetime.now()
         nowtime = now.strftime('%Y%m%d%M%M%S')
@@ -32,6 +31,8 @@ class StartScreen(Screen):
         text_file = PurePath(os.getcwd()) / fileFolder / name_file
         with open(text_file, 'a') as f:
             f.writelines(profile)
+        # move next screen
+        presentation.current = "other"
 
 
 class MainScreen(Screen):
@@ -39,7 +40,6 @@ class MainScreen(Screen):
 
 class ScreenManagement(ScreenManager):
     pass
-
 
 class ExperimentApp(App):
     def build(self):

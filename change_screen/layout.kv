@@ -9,13 +9,6 @@ ScreenManagement:
     nametext: text_box
     agetext: age_text
 	name: "start"
-	Button:
-        color: 0,0,1,1
-        font_size: 25
-        size_hint: 0.3, 0.2
-		on_release: app.root.current = "other"
-		text: "Next Screen"
-        pos_hint: {"right":1, "top":1}
 
     Button:
         font_size: 25
@@ -48,7 +41,6 @@ ScreenManagement:
         top: root.top-90
         focus: True
         on_text_validate: root.buttonClicked()
-
     TextInput:
         id: age_text
         size_hint: 0.3, 0.08
@@ -61,8 +53,12 @@ ScreenManagement:
 
 <MainScreen>:
 	name: "other"
-
 	FloatLayout:
+	    Camera:
+	        id: camera
+	        resolution: (320, 240)
+	        play: False
+
 		Button:
 			color: 0,1,0,1
 			font_size: 25
@@ -70,3 +66,16 @@ ScreenManagement:
 			text: "Back Home"
 			on_release: app.root.current = "start"
 			pos_hint: {"right":1, "top":1}
+
+		BoxLayout:
+		    Button:
+		        text: 'Play'
+				font_size: 25
+		        on_press: camera.play = not camera.play
+		        size_hint_y: None
+		        height: '48dp'
+			Button:
+				text: 'Stop'
+				font_size: 25
+				size_hint_y: None
+				height: '48dp'
