@@ -2,30 +2,39 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.properties import ObjectProperty
-
 from kivy.uix.widget import Widget
 from kivy.graphics import Line
+
+import os
 from datetime import datetime
+from pathlib import PurePath
+from time import sleep
 
 
-
-class MainScreen(Screen):
+class StartScreen(Screen):
     def __init__(self, **kwargs):
-        super(MainScreen, self).__init__(**kwargs)
+        super(StartScreen, self).__init__(**kwargs)
     def get_Info(self):
+        global fileFolder
         now = datetime.now()
-        self.now_ = now.strftime('%Y,%m,%d  %H:%M:%S')
-        # self.labeldatetime.text = s1tr(self.root.now_)
-        nowtime = self.now_
+        nowtime = now.strftime('%Y%m%d%M%M%S')
         name_ = self.nametext.text
-        age_ = self.agetext.text
-        profile = [nowtime,'\n', name_,'\n', age_]
+        exnum_ = self.agetext.text
+        fileFolder = name_ +'_'+ exnum_
+        # make directory
+        # cmd = "mkdir " + fileFolder + " " + fileFolder+"\Audio " + fileFolder+"\Log "+ fileFolder+"\NAO " + fileFolder+"\Webcam " + fileFolder+"\Webcam\Frames " + fileFolder+"\NAO\Frames "
+        cmd = "mkdir " + fileFolder + " " + fileFolder + "/Audio " + fileFolder + "/Log " + fileFolder + "/Webcam " + fileFolder + "/Webcam/Frames "
+        prompt = os.popen(cmd, "w")
+        prompt.write("y")
+        sleep(1)
+        profile = [nowtime,'\n', name_,'\n', exnum_]
         name_file = nowtime + '.txt'
-        with open(name_file, 'w') as f:
+        text_file = PurePath(os.getcwd()) / fileFolder / name_file
+        with open(text_file, 'a') as f:
             f.writelines(profile)
 
 
-class AnotherScreen(Screen):
+class MainScreen(Screen):
     pass
 
 class ScreenManagement(ScreenManager):
@@ -39,3 +48,4 @@ class ExperimentApp(App):
 if __name__ == '__main__':
     presentation = Builder.load_file("layout.kv")
     ExperimentApp().run()
+    print('saved ' + os.getcwd() + '/' + fileFolder)

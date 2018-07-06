@@ -2,13 +2,13 @@
 
 ScreenManagement:
 	transition: FadeTransition()
+	StartScreen:
 	MainScreen:
-	AnotherScreen:
 
-<MainScreen>:
+<StartScreen>:
     nametext: text_box
     agetext: age_text
-	name: "main"
+	name: "start"
 	Button:
         color: 0,0,1,1
         font_size: 25
@@ -59,7 +59,7 @@ ScreenManagement:
         on_text_validate: root.buttonClicked()
 
 
-<AnotherScreen>:
+<MainScreen>:
 	name: "other"
 
 	FloatLayout:
@@ -68,5 +68,5 @@ ScreenManagement:
 			font_size: 25
 			size_hint: 0.3,0.2
 			text: "Back Home"
-			on_release: app.root.current = "main"
+			on_release: app.root.current = "start"
 			pos_hint: {"right":1, "top":1}
