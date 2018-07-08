@@ -1,3 +1,4 @@
+# encoding: utf-8
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
@@ -6,12 +7,13 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Line
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.garden.graph import MeshLinePlot
+# from kivy.garden.graph import MeshLinePlot
+from graph import Graph, MeshLinePlot
 from kivy.clock import Clock
 from threading import Thread
 import audioop
 import pyaudio
-
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 import os
 from datetime import datetime
 from pathlib import PurePath
@@ -41,11 +43,6 @@ def get_microphone_level():
             levels = []
         levels.append(mx)
 
-class get_Info(Widget):
-    def on_touch_down(self, touch):
-        labeldatetime = ObjectProperty(None)
-        buttoncount = ObjectProperty(None)
-
 
 class StartScreen(Screen):
     def get_Info(self):
@@ -57,15 +54,15 @@ class StartScreen(Screen):
         exnum_ = self.agetext.text
         fileFolder = name_ +'_'+ exnum_
         # make directory
-        # cmd = "mkdir " + fileFolder + " " + fileFolder+"\Audio " + fileFolder+"\Log "+ fileFolder+"\NAO " + fileFolder+"\Webcam " + fileFolder+"\Webcam\Frames " + fileFolder+"\NAO\Frames "
-        cmd = "mkdir " + fileFolder + " " + fileFolder + "/Audio " + fileFolder + "/Log " + fileFolder + "/Webcam " + fileFolder + "/Webcam/Frames "
+        cmd = "mkdir " + fileFolder + " " + fileFolder+"\Audio " + fileFolder+"\Log "+ fileFolder+"\NAO " + fileFolder+"\Webcam " + fileFolder+"\Webcam\Frames " + fileFolder+"\NAO\Frames "
+        # cmd = "mkdir " + fileFolder + " " + fileFolder + "/Audio " + fileFolder + "/Log " + fileFolder + "/Webcam " + fileFolder + "/Webcam/Frames "
+        sleep(0.5)
         prompt = os.popen(cmd, "w")
         prompt.write("y")
-        sleep(1)
         profile = [nowtime,'\n', name_,'\n', exnum_]
         name_file = nowtime + '.txt'
-        text_file = PurePath(os.getcwd()) / fileFolder / name_file
-        with open(text_file, 'a') as f:
+        text_file = fileFolder + '\\' + name_file
+        with open(text_file, 'w') as f:
             f.writelines(profile)
         # move next screen
         presentation.current = "other"
@@ -73,8 +70,8 @@ class StartScreen(Screen):
 
 
 class PlotGraph(Screen):
-    def __init__(self,):
-        super(Logic, self).__init__()
+    def __init__(self,**kwargs):
+        super(PlotGraph, self).__init__(**kwargs)
         self.plot = MeshLinePlot(color=[1, 0, 0, 1])
 
     def start(self):
@@ -90,8 +87,10 @@ class PlotGraph(Screen):
 class MainScreen(Screen):
     pass
 
+
 class ScreenManagement(ScreenManager):
     pass
+
 
 class ExperimentApp(App):
     def build(self):

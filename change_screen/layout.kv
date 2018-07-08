@@ -1,9 +1,12 @@
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import MeshLinePlot kivy.garden.graph.MeshLinePlot
+#:import Graph kivy.garden.graph.Graph
 
 ScreenManagement:
 	transition: FadeTransition()
 	StartScreen:
 	MainScreen:
+	PlotGraph:
 
 <StartScreen>:
     nametext: text_box
@@ -63,11 +66,12 @@ ScreenManagement:
 			color: 0,1,0,1
 			font_size: 25
 			size_hint: 0.3,0.2
-			text: "Back Home"
-			on_release: app.root.current = "start"
+			text: "Graph Screen"
+			on_release: app.root.current = "graph"
 			pos_hint: {"right":1, "top":1}
 
 		BoxLayout:
+			size_hint: [1, .2]
 		    Button:
 		        text: 'Play'
 				font_size: 25
@@ -81,22 +85,40 @@ ScreenManagement:
 				height: '48dp'
 
 
-<plotgraph>:
-	BoxLayout:
-	    size_hint: 0.4, 0.6
-	    top: root.top-300
-	    Graph:
-	        id: graph
-	        xlabel: ""
-	        ylabel: "Level"
-	BoxLayout:
-	    size_hint: [1, .2]
-	    orientation: "horizontal"
-	    Button:
-	        text: "START"
-	        bold: True
-	        on_press: root.start()
-	    Button:
-	        text: "STOP"
-	        bold: True
-	        on_press: root.stop()
+<PlotGraph>:
+	name: "graph"
+	FloatLayout:
+		orientation: "vertical"
+		Button:
+			color: 0,1,0,1
+			font_size: 25
+			size_hint: 0.3,0.2
+			text: "Camera Screen"
+			on_release: app.root.current = "other"
+			pos_hint: {"right":1, "top":1}
+
+		BoxLayout:
+			top: root.top-370
+			size_hint: [1, .5]
+		    Graph:
+				id: graph
+				background_color: (0.5, 0.5, 0.5, 1)
+		        xlabel: "time"
+		        ylabel: "Level"
+				x_grid: True
+        		y_grid: True
+				x_grid_label: True
+        		y_grid_label: True
+		BoxLayout:
+		    size_hint: [1, .1]
+		    orientation: "horizontal"
+		    Button:
+		        text: "START"
+		        bold: True
+				font_size: 25
+		        on_press: root.start()
+		    Button:
+		        text: "STOP"
+		        bold: True
+				font_size: 25
+		        on_press: root.stop()
