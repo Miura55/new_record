@@ -69,7 +69,6 @@ ScreenManagement:
 	name: "other"
 
 	FloatLayout:
-		Painter
 		Button:
 			color: 0,1,0,1
 			font_size: 25
@@ -77,3 +76,22 @@ ScreenManagement:
 			text: "Back Home"
 			on_release: app.root.current = "main"
 			pos_hint: {"right":1, "top":1}
+
+        BoxLayout:
+            size_hint: 0.4, 0.6
+            top: root.top-300
+            Graph:
+                id: graph
+                xlabel: ""
+                ylabel: "Level"
+        BoxLayout:
+            size_hint: [1, .2]
+            orientation: "horizontal"
+            Button:
+                text: "START"
+                bold: True
+                on_press: root.start()
+            Button:
+                text: "STOP"
+                bold: True
+                on_press: root.stop()
