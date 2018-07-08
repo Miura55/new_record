@@ -100,7 +100,8 @@ class ExperimentApp(App):
 
 if __name__ == '__main__':
     levels = []  # store levels of microphone
+    presentation = Builder.load_file("layout.kv")
     get_level_thread = Thread(target = get_microphone_level)
     get_level_thread.daemon = True
     get_level_thread.start()
-    MainApp().run()
+    ExperimentApp().run()
