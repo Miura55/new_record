@@ -2,7 +2,6 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.properties import ObjectProperty
-
 from kivy.uix.widget import Widget
 from kivy.graphics import Line
 
@@ -13,6 +12,10 @@ from threading import Thread
 import audioop
 import pyaudio
 
+import os
+from datetime import datetime
+from pathlib import PurePath
+from time import sleep
 
 def get_microphone_level():
     """
@@ -44,10 +47,32 @@ class get_Info(Widget):
         buttoncount = ObjectProperty(None)
 
 
-class MainScreen(Screen):
-    pass
+class StartScreen(Screen):
+    def get_Info(self):
+        global presentation
+        global fileFolder
+        now = datetime.now()
+        nowtime = now.strftime('%Y%m%d%M%M%S')
+        name_ = self.nametext.text
+        exnum_ = self.agetext.text
+        fileFolder = name_ +'_'+ exnum_
+        # make directory
+        # cmd = "mkdir " + fileFolder + " " + fileFolder+"\Audio " + fileFolder+"\Log "+ fileFolder+"\NAO " + fileFolder+"\Webcam " + fileFolder+"\Webcam\Frames " + fileFolder+"\NAO\Frames "
+        cmd = "mkdir " + fileFolder + " " + fileFolder + "/Audio " + fileFolder + "/Log " + fileFolder + "/Webcam " + fileFolder + "/Webcam/Frames "
+        prompt = os.popen(cmd, "w")
+        prompt.write("y")
+        sleep(1)
+        profile = [nowtime,'\n', name_,'\n', exnum_]
+        name_file = nowtime + '.txt'
+        text_file = PurePath(os.getcwd()) / fileFolder / name_file
+        with open(text_file, 'a') as f:
+            f.writelines(profile)
+        # move next screen
+        presentation.current = "other"
 
-class AnotherScreen(Screen):
+
+
+class PlotGraph(Screen):
     def __init__(self,):
         super(Logic, self).__init__()
         self.plot = MeshLinePlot(color=[1, 0, 0, 1])
@@ -62,26 +87,16 @@ class AnotherScreen(Screen):
     def get_value(self, dt):
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
 
+class MainScreen(Screen):
+    pass
 
 class ScreenManagement(ScreenManager):
     pass
 
-presentation = Builder.load_file("layout.kv")
-
-class MainApp(App):
+class ExperimentApp(App):
     def build(self):
         return presentation
-    def buttoncount_clicked(self, src):
-        now = datetime.now()
-        self.root.now_ = now.strftime('%Y,%m,%d  %H:%M:%S')
-        self.root.labeldatetime.text = str(self.root.now_)
-        nowtime = self.root.labeldatetime.text
-        name_ = self.root.nametext.text
-        age_ = self.root.agetext.text
-        profile = [nowtime,'\n', name_,'\n', age_]
-        name_file = nowtime + '.txt'
-        with open(name_file, 'w') as f:
-            f.writelines(profile)
+
 
 if __name__ == '__main__':
     levels = []  # store levels of microphone

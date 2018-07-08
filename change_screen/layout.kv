@@ -2,43 +2,30 @@
 
 ScreenManagement:
 	transition: FadeTransition()
+	StartScreen:
 	MainScreen:
-	AnotherScreen:
 
-<MainScreen>:
-	name: "main"
-    labeldatetime: exnumber
-    # username: usernamelabel
-    buttoncount: buttoncountval
-    # buttonquit:quitbutton
-    # nametext: text_box
-    # agetext: age_text
-	Button:
-        color: 0,0,1,1
-        font_size: 25
-        size_hint: 0.3, 0.2
-		on_release: app.root.current = "other"
-		text: "Next Screen"
-        pos_hint: {"right":1, "top":1}
-	get_Info
+<StartScreen>:
+    nametext: text_box
+    agetext: age_text
+	name: "start"
+
     Button:
-		id: buttoncountval
         font_size: 25
         center_x: (root.width/2)
+		on_release: root.get_Info()
         size_hint: 0.15, 0.1
         top: root.top-270
         text: 'Start'
 
     #Labeldatetime
     Label:
-        id: usernamelabel
         font_size: 25
         center_x: (root.width/4)
         size_hint: 0.15, 0.1
         top: root.top-90
         text:'name'
     Label:
-        id: exnumber
         font_size: 25
         center_x: (root.width/4)
         size_hint: 0.15, 0.1
@@ -54,7 +41,6 @@ ScreenManagement:
         top: root.top-90
         focus: True
         on_text_validate: root.buttonClicked()
-
     TextInput:
         id: age_text
         size_hint: 0.3, 0.08
@@ -65,19 +51,38 @@ ScreenManagement:
         on_text_validate: root.buttonClicked()
 
 
-<AnotherScreen>:
+<MainScreen>:
 	name: "other"
-
 	FloatLayout:
+	    Camera:
+	        id: camera
+	        resolution: (320, 240)
+	        play: False
+
 		Button:
 			color: 0,1,0,1
 			font_size: 25
 			size_hint: 0.3,0.2
 			text: "Back Home"
-			on_release: app.root.current = "main"
+			on_release: app.root.current = "start"
 			pos_hint: {"right":1, "top":1}
+ 
+		BoxLayout:
+		    Button:
+		        text: 'Play'
+				font_size: 25
+		        on_press: camera.play = not camera.play
+		        size_hint_y: None
+		        height: '48dp'
+			Button:
+				text: 'Stop'
+				font_size: 25
+				size_hint_y: None
+				height: '48dp'
 
-        BoxLayout:
+
+<plotgraph>
+       BoxLayout:
             size_hint: 0.4, 0.6
             top: root.top-300
             Graph:
@@ -95,3 +100,4 @@ ScreenManagement:
                 text: "STOP"
                 bold: True
                 on_press: root.stop()
+
