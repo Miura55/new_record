@@ -16,7 +16,6 @@ import pyaudio
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 import os
 from datetime import datetime
-from pathlib import PurePath
 from time import sleep
 
 def get_microphone_level():
@@ -56,16 +55,15 @@ class StartScreen(Screen):
         # make directory
         cmd = "mkdir " + fileFolder + " " + fileFolder+"\Audio " + fileFolder+"\Log "+ fileFolder+"\NAO " + fileFolder+"\Webcam " + fileFolder+"\Webcam\Frames " + fileFolder+"\NAO\Frames "
         # cmd = "mkdir " + fileFolder + " " + fileFolder + "/Audio " + fileFolder + "/Log " + fileFolder + "/Webcam " + fileFolder + "/Webcam/Frames "
-        sleep(0.5)
         prompt = os.popen(cmd, "w")
         prompt.write("y")
         profile = [nowtime,'\n', name_,'\n', exnum_]
         name_file = nowtime + '.txt'
         text_file = fileFolder + '\\' + name_file
-        with open(text_file, 'w') as f:
-            f.writelines(profile)
         # move next screen
         presentation.current = "other"
+        with open(text_file, 'w') as f:
+            f.writelines(profile)
 
 
 
