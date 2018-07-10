@@ -82,16 +82,27 @@ class MainScreen(Screen):
     def get_value(self, dt):
         global fileFolder
         global frame_num
+        self.dt = dt
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
         camera = self.ids['camera']
         # timestr = time.strftime("%Y%m%d_%H%M%S")
         camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
         frame_num += 1
+    def Quit(self):
+        global fileFolder
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        cmd = "ffmpeg -r "+str(30)+ " -i " +fileFolder+"\Webcam\Frames\IMG_%d.png -vcodec libx264 -pix_fmt yuv420p -r 60 "+fileFolder+"\Webcam\webcam1_"+timestr+".mp4"
+        print cmd
+        try:
+            prompt = os.popen(cmd, "w")
+            prompt.write("y")
+        except Exception,e:
+            print "..."
+            print "Error on saving video 1 file was: ",e
+
 
 class PlotGraph(Screen):
-    def __init__(self,**kwargs):
-        super(PlotGraph, self).__init__(**kwargs)
-
+    pass
 
 class ScreenManagement(ScreenManager):
     pass

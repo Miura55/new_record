@@ -62,11 +62,19 @@ ScreenManagement:
 		size_hint: 0.3,0.2
 		text: "Graph Screen"
 		on_release: app.root.current = "graph"
+		pos_hint: {"left":1, "top":1}
+
+	Button:
+		color: 1,0,0,1
+		font_size: 25
+		size_hint: 0.3,0.2
+		text: "Exit"
+		on_release: root.Quit()
 		pos_hint: {"right":1, "top":1}
 
 
 	BoxLayout:
-		top: root.top-370
+		top: root.top-400
 	    Camera:
 	        id: camera
 	        resolution: (320, 240)
