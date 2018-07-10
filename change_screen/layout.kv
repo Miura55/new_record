@@ -56,33 +56,45 @@ ScreenManagement:
 
 <MainScreen>:
 	name: "other"
-	FloatLayout:
+	Button:
+		color: 0,1,0,1
+		font_size: 25
+		size_hint: 0.3,0.2
+		text: "Graph Screen"
+		on_release: app.root.current = "graph"
+		pos_hint: {"right":1, "top":1}
+
+
+	BoxLayout:
+		top: root.top-370
 	    Camera:
 	        id: camera
 	        resolution: (320, 240)
-	        play: False
-
-		Button:
-			color: 0,1,0,1
+	        play: True
+	    Graph:
+			id: graph
+			background_color: (0.5, 0.5, 0.5, 1)
+			size_hint: 1, 0.5
+	        xlabel: "time"
+	        ylabel: "Level"
+			x_grid: True
+    		y_grid: True
+			x_grid_label: True
+    		y_grid_label: True
+	BoxLayout:
+		size_hint: [1, .2]
+	    Button:
+	        text: 'Play'
 			font_size: 25
-			size_hint: 0.3,0.2
-			text: "Graph Screen"
-			on_release: app.root.current = "graph"
-			pos_hint: {"right":1, "top":1}
-
-		BoxLayout:
-			size_hint: [1, .2]
-		    Button:
-		        text: 'Play'
-				font_size: 25
-		        on_press: camera.play = not camera.play
-		        size_hint_y: None
-		        height: '48dp'
-			Button:
-				text: 'Stop'
-				font_size: 25
-				size_hint_y: None
-				height: '48dp'
+			on_press: root.start()
+	        size_hint_y: None
+	        height: '48dp'
+		Button:
+			text: 'Stop'
+			font_size: 25
+			on_press: root.stop()
+			size_hint_y: None
+			height: '48dp'
 
 
 <PlotGraph>:
@@ -110,13 +122,14 @@ ScreenManagement:
 				x_grid_label: True
         		y_grid_label: True
 		BoxLayout:
-		    size_hint: [1, .1]
+		    size_hint: [1, .2]
 		    orientation: "horizontal"
 		    Button:
 		        text: "START"
 		        bold: True
 				font_size: 25
 		        on_press: root.start()
+
 		    Button:
 		        text: "STOP"
 		        bold: True
