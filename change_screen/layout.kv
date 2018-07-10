@@ -56,63 +56,80 @@ ScreenManagement:
 
 <MainScreen>:
 	name: "other"
-	Button:
-		color: 0,1,0,1
-		font_size: 25
-		size_hint: 0.3,0.2
-		text: "Graph Screen"
-		on_release: app.root.current = "graph"
-		pos_hint: {"left":1, "top":1}
+
+	# Change Screen
+
+	# Button:
+	# 	color: 0,1,0,1
+	# 	font_size: 25
+	# 	size_hint: 0.3,0.2
+	# 	text: "Graph Screen"
+	# 	on_release: app.root.current = "graph"
+	# 	pos_hint: {"left":1, "top":1}
 
 	Button:
 		color: 1,0,0,1
 		font_size: 25
 		size_hint: 0.3,0.2
 		text: "Exit"
-		on_release: root.Quit()
+		# on_release: root.Quit()
+		on_release: app.root_window.close()
 		pos_hint: {"right":1, "top":1}
 
 
 	BoxLayout:
-		top: root.top-400
+		orientation: "vertical"
 	    Camera:
 	        id: camera
 	        resolution: (320, 240)
+			size_hint: 1, .5
 	        play: True
 	    Graph:
 			id: graph
 			background_color: (0.5, 0.5, 0.5, 1)
-			size_hint: 1, 0.5
+			size_hint: [1, .5]
 	        xlabel: "time"
 	        ylabel: "Level"
 			x_grid: True
     		y_grid: True
 			x_grid_label: True
     		y_grid_label: True
-	BoxLayout:
-		size_hint: [1, .2]
-	    Button:
-	        text: 'Play'
-			font_size: 25
-			on_press: root.start()
-	        size_hint_y: None
-	        height: '48dp'
-		Button:
-			text: 'Stop'
-			font_size: 25
-			on_press: root.stop()
-			size_hint_y: None
-			height: '48dp'
+	    Graph:
+			id: b_graph
+			background_color: (0.5, 0.5, 0.5, 1)
+			size_hint: [1, .5]
+	        xlabel: "time"
+	        ylabel: "B"
+			x_grid: True
+    		y_grid: True
+			x_grid_label: True
+    		y_grid_label: True
+	    Graph:
+			id: c_graph
+			background_color: (0.5, 0.5, 0.5, 1)
+			size_hint: [1, .5]
+	        xlabel: "time"
+	        ylabel: "C"
+			x_grid: True
+    		y_grid: True
+			x_grid_label: True
+    		y_grid_label: True
+
+		BoxLayout:
+			size_hint: [1, .5]
+		    Button:
+		        text: 'Play'
+				font_size: 25
+				on_press: root.start()
+		        size_hint_y: None
+		        height: '48dp'
+			Button:
+				text: 'Stop'
+				font_size: 25
+				on_press: root.stop()
+				size_hint_y: None
+				height: '48dp'
 
 
 <PlotGraph>:
 	name: "graph"
-	FloatLayout:
-		orientation: "vertical"
-		Button:
-			color: 0,1,0,1
-			font_size: 25
-			size_hint: 0.3,0.2
-			text: "Camera Screen"
-			on_release: app.root.current = "other"
-			pos_hint: {"right":1, "top":1}

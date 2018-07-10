@@ -71,9 +71,13 @@ class MainScreen(Screen):
     def __init__(self,**kwargs):
         super(MainScreen, self).__init__(**kwargs)
         self.plot = MeshLinePlot(color=[1, 0, 0, 1])
+        self.b_plot = MeshLinePlot(color=[0, 1, 0, 1])
+        self.c_plot = MeshLinePlot(color=[0, 0, 1, 1])
 
     def start(self):
         self.ids.graph.add_plot(self.plot)
+        self.ids.b_graph.add_plot(self.b_plot)
+        self.ids.c_graph.add_plot(self.c_plot)
         Clock.schedule_interval(self.get_value, 0.001)
 
     def stop(self):
@@ -84,22 +88,13 @@ class MainScreen(Screen):
         global frame_num
         self.dt = dt
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        camera = self.ids['camera']
-        # timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
-        frame_num += 1
-    def Quit(self):
-        global fileFolder
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        cmd = "ffmpeg -r "+str(30)+ " -i " +fileFolder+"\Webcam\Frames\IMG_%d.png -vcodec libx264 -pix_fmt yuv420p -r 60 "+fileFolder+"\Webcam\webcam1_"+timestr+".mp4"
-        print cmd
-        try:
-            prompt = os.popen(cmd, "w")
-            prompt.write("y")
-        except Exception,e:
-            print "..."
-            print "Error on saving video 1 file was: ",e
+        self.b_plot.points = [(i, j/5) for i, j in enumerate(levels)]
+        self.c_plot.points = [(i, j/5) for i, j in enumerate(levels)]
 
+        # Save Frame
+        # camera = self.ids['camera']
+        # camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
+        # frame_num += 1
 
 class PlotGraph(Screen):
     pass
@@ -121,3 +116,12 @@ if __name__ == '__main__':
     get_level_thread.daemon = True
     get_level_thread.start()
     ExperimentApp().run()
+    timestr = time.strftime("%Y%m%d_%H%M%S")
+    cmd = "ffmpeg -r "+str(10)+ " -i " +fileFolder+"\Webcam\Frames\IMG_%d.png -vcodec libx264 -pix_fmt yuv420p -r 60 "+fileFolder+"\Webcam\webcam1_"+timestr+".mp4"
+    print cmd
+    try:
+        prompt = os.popen(cmd, "w")
+        prompt.write("y")
+    except Exception,e:
+        print "..."
+        print "Error on saving video 1 file was: ",e
