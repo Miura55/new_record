@@ -16,6 +16,7 @@ import pyaudio
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 import os
 from datetime import datetime
+import time
 from time import sleep
 
 def get_microphone_level():
@@ -66,30 +67,12 @@ class StartScreen(Screen):
             f.writelines(profile)
 
 
-
-class PlotGraph(Screen):
-    def __init__(self,**kwargs):
-        super(PlotGraph, self).__init__(**kwargs)
-        self.plot = MeshLinePlot(color=[1, 0, 0, 1])
-
-    def start(self):
-        self.ids.graph.add_plot(self.plot)
-        Clock.schedule_interval(self.get_value, 0.001)
-
-    def stop(self):
-        Clock.unschedule(self.get_value)
-
-    def get_value(self, dt):
-        self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
-
 class MainScreen(Screen):
     def __init__(self,**kwargs):
         super(MainScreen, self).__init__(**kwargs)
         self.plot = MeshLinePlot(color=[1, 0, 0, 1])
 
     def start(self):
-        global presentation
-        presentation.camera = "start"
         self.ids.graph.add_plot(self.plot)
         Clock.schedule_interval(self.get_value, 0.001)
 
@@ -97,8 +80,17 @@ class MainScreen(Screen):
         Clock.unschedule(self.get_value)
 
     def get_value(self, dt):
+        global fileFolder
+        global frame_num
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
+        camera = self.ids['camera']
+        # timestr = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
+        frame_num += 1
 
+class PlotGraph(Screen):
+    def __init__(self,**kwargs):
+        super(PlotGraph, self).__init__(**kwargs)
 
 
 class ScreenManagement(ScreenManager):
@@ -112,6 +104,7 @@ class ExperimentApp(App):
 
 if __name__ == '__main__':
     levels = []  # store levels of microphone
+    frame_num = 0
     presentation = Builder.load_file("layout.kv")
     get_level_thread = Thread(target = get_microphone_level)
     get_level_thread.daemon = True

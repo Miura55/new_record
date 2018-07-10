@@ -108,30 +108,3 @@ ScreenManagement:
 			text: "Camera Screen"
 			on_release: app.root.current = "other"
 			pos_hint: {"right":1, "top":1}
-
-		BoxLayout:
-			top: root.top-370
-			size_hint: [1, .5]
-		    Graph:
-				id: graph
-				background_color: (0.5, 0.5, 0.5, 1)
-		        xlabel: "time"
-		        ylabel: "Level"
-				x_grid: True
-        		y_grid: True
-				x_grid_label: True
-        		y_grid_label: True
-		BoxLayout:
-		    size_hint: [1, .2]
-		    orientation: "horizontal"
-		    Button:
-		        text: "START"
-		        bold: True
-				font_size: 25
-		        on_press: root.start()
-
-		    Button:
-		        text: "STOP"
-		        bold: True
-				font_size: 25
-		        on_press: root.stop()
