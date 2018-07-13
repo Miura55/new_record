@@ -18,6 +18,7 @@ import os
 from datetime import datetime
 import time
 from time import sleep
+import random
 
 def get_microphone_level():
     """
@@ -43,6 +44,19 @@ def get_microphone_level():
             levels = []
         levels.append(mx)
 
+def get_b():
+    global b_datas
+    while True:
+        if len(b_datas) >= 200:
+            b_datas = []
+        b_datas.append(random.randint(0, 10))
+
+def get_c():
+    global b_datas
+    while True:
+        if len(b_datas) >= 200:
+            b_datas = []
+        b_datas.append(random.randint(0, 10))
 
 class StartScreen(Screen):
     def get_Info(self):
@@ -88,7 +102,7 @@ class MainScreen(Screen):
         global frame_num
         self.dt = dt
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        self.b_plot.points = [(i, j/5) for i, j in enumerate(levels)]
+        self.b_plot.points = [(i, j) for i, j in enumerate(b_datas)]
         self.c_plot.points = [(i, j/5) for i, j in enumerate(levels)]
 
         # Save Frame
@@ -110,11 +124,15 @@ class ExperimentApp(App):
 
 if __name__ == '__main__':
     levels = []  # store levels of microphone
+    b_datas = []
     frame_num = 0
     presentation = Builder.load_file("layout.kv")
     get_level_thread = Thread(target = get_microphone_level)
     get_level_thread.daemon = True
     get_level_thread.start()
+    get_b_thread = Thread(target = get_b)
+    get_b_thread.daemon = True
+    get_b_thread.start()
     ExperimentApp().run()
     timestr = time.strftime("%Y%m%d_%H%M%S")
     cmd = "ffmpeg -r "+str(10)+ " -i " +fileFolder+"\Webcam\Frames\IMG_%d.png -vcodec libx264 -pix_fmt yuv420p -r 60 "+fileFolder+"\Webcam\webcam1_"+timestr+".mp4"
