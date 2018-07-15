@@ -50,6 +50,7 @@ def get_b():
         if len(b_datas) >= 100:
             b_datas = []
         b_datas.append(random.randint(0, 10))
+        sleep(0.02)
 
 class StartScreen(Screen):
     def get_Info(self):
@@ -96,7 +97,7 @@ class MainScreen(Screen):
         self.dt = dt
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
         self.b_plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        self.c_plot.points = [(i, j/5) for i, j in enumerate(b_datas)]
+        self.c_plot.points = [(i, j) for i, j in enumerate(b_datas)]
 
         # Save Frame
         # camera = self.ids['camera']
