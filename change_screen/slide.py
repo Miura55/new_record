@@ -47,14 +47,7 @@ def get_microphone_level():
 def get_b():
     global b_datas
     while True:
-        if len(b_datas) >= 200:
-            b_datas = []
-        b_datas.append(random.randint(0, 10))
-
-def get_c():
-    global b_datas
-    while True:
-        if len(b_datas) >= 200:
+        if len(b_datas) >= 100:
             b_datas = []
         b_datas.append(random.randint(0, 10))
 
@@ -102,8 +95,8 @@ class MainScreen(Screen):
         global frame_num
         self.dt = dt
         self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        self.b_plot.points = [(i, j) for i, j in enumerate(b_datas)]
-        self.c_plot.points = [(i, j/5) for i, j in enumerate(levels)]
+        self.b_plot.points = [(i, j/5) for i, j in enumerate(levels)]
+        self.c_plot.points = [(i, j/5) for i, j in enumerate(b_datas)]
 
         # Save Frame
         # camera = self.ids['camera']
