@@ -137,3 +137,7 @@ if __name__ == '__main__':
     except Exception,e:
         print "..."
         print "Error on saving video 1 file was: ",e
+
+    # Finish apprication
+    import sys
+    sys.exit()
