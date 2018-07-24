@@ -83,7 +83,7 @@ ScreenManagement:
 	        id: camera
 			# index: webcam_number
 			index: 1
-	        resolution: (320, 240)
+			resolution: (320, 240)
 			size_hint: 1, .5
 	        play: True
 	    Graph:
@@ -91,27 +91,22 @@ ScreenManagement:
 			background_color: (0.5, 0.5, 0.5, 1)
 			size_hint: [1, .5]
 	        xlabel: "time"
-	        ylabel: "Level"
+	        ylabel: "GSR"
 			x_grid: True
     		y_grid: True
 			x_grid_label: True
     		y_grid_label: True
+			ymin: 0
+			ymax: 1.0
+			x_ticks_minor: 5
+			x_ticks_major: 25
+			y_ticks_major: 0.1
 	    Graph:
 			id: b_graph
 			background_color: (0.5, 0.5, 0.5, 1)
 			size_hint: [1, .5]
 	        xlabel: "time"
-	        ylabel: "B"
-			x_grid: True
-    		y_grid: True
-			x_grid_label: True
-    		y_grid_label: True
-	    Graph:
-			id: c_graph
-			background_color: (0.5, 0.5, 0.5, 1)
-			size_hint: [1, .5]
-	        xlabel: "time"
-	        ylabel: "C"
+	        ylabel: "TMP"
 			x_grid: True
     		y_grid: True
 			x_grid_label: True
@@ -119,8 +114,23 @@ ScreenManagement:
 			x_ticks_minor: 5
 			x_ticks_major: 25
 			ymin: 0
-			ymax: 10
-			y_ticks_major: 1
+			ymax: 50
+			y_ticks_major: 5
+	    Graph:
+			id: c_graph
+			background_color: (0.5, 0.5, 0.5, 1)
+			size_hint: [1, .5]
+	        xlabel: "time"
+	        ylabel: "IBI"
+			x_grid: True
+    		y_grid: True
+			x_grid_label: True
+    		y_grid_label: True
+			x_ticks_minor: 5
+			x_ticks_major: 25
+			ymin: 0.0
+			ymax: 2.0
+			y_ticks_major: 0.2
 
 		BoxLayout:
 			size_hint: [1, .5]

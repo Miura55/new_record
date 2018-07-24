@@ -20,29 +20,6 @@ import time
 from time import sleep
 import random
 
-def get_microphone_level():
-    """
-    source: http://stackoverflow.com/questions/26478315/getting-volume-levels-from-pyaudio-for-use-in-arduino
-    audioop.max alternative to audioop.rms
-    """
-    chunk = 1024
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 1
-    RATE = 44100
-    p = pyaudio.PyAudio()
-
-    s = p.open(format=FORMAT,
-               channels=CHANNELS,
-               rate=RATE,
-               input=True,
-               frames_per_buffer=chunk)
-    global levels
-    while True:
-        data = s.read(chunk)
-        mx = audioop.rms(data, 2)
-        if len(levels) >= 100:
-            levels = []
-        levels.append(mx)
 
 def get_b():
     global b_datas
@@ -50,6 +27,48 @@ def get_b():
         if len(b_datas) >= 100:
             b_datas = []
         b_datas.append(random.randint(0, 10))
+        sleep(0.02)
+
+def get_gsr():
+    global gsr_data
+    gsr_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_gsr_20180724_055510'
+    while True:
+        data_set = open(gsr_source, 'r')
+        line_r = data_set.read()
+        data_r = line_r.split("\n")
+        pit_r = data_r[-2]
+        pit_r = pit_r.split(',')
+        if len(gsr_data) >= 100:
+            gsr_data = []
+        gsr_data.append(float(pit_r[1]))
+        sleep(0.02)
+
+def get_tmp():
+    global tmp_data
+    tmp_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_tmp_20180724_055510'
+    while True:
+        data_set = open(tmp_source, 'r')
+        line_r = data_set.read()
+        data_r = line_r.split("\n")
+        pit_r = data_r[-2]
+        pit_r = pit_r.split(',')
+        if len(tmp_data) >= 100:
+            tmp_data = []
+        tmp_data.append(float(pit_r[1]))
+        sleep(0.02)
+
+def get_ibi():
+    global ibi_data
+    ibi_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_ibi_20180724_055510'
+    while True:
+        data_set = open(tmp_source, 'r')
+        line_r = data_set.read()
+        data_r = line_r.split("\n")
+        pit_r = data_r[-2]
+        pit_r = pit_r.split(',')
+        if len(tmp_data) >= 100:
+            tmp_data = []
+        tmp_data.append(float(pit_r[1]))
         sleep(0.02)
 
 class StartScreen(Screen):
@@ -95,14 +114,14 @@ class MainScreen(Screen):
         global fileFolder
         global frame_num
         self.dt = dt
-        self.plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        self.b_plot.points = [(i, j/5) for i, j in enumerate(levels)]
-        self.c_plot.points = [(i, j) for i, j in enumerate(b_datas)]
+        self.plot.points = [(i, j) for i, j in enumerate(gsr_data)]
+        self.b_plot.points = [(i, j) for i, j in enumerate(tmp_data)]
+        self.c_plot.points = [(i, j) for i, j in enumerate(ibi_data)]
 
         # Save Frame
-        # camera = self.ids['camera']
-        # camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
-        # frame_num += 1
+        camera = self.ids['camera']
+        camera.export_to_png(fileFolder + "\Webcam\Frames\IMG_{}.png".format(frame_num))
+        frame_num += 1
 
 class PlotGraph(Screen):
     pass
@@ -117,16 +136,24 @@ class ExperimentApp(App):
 
 
 if __name__ == '__main__':
-    levels = []  # store levels of microphone
+    gsr_data = []
+    tmp_data = []
+    ibi_data = []
     b_datas = []
     frame_num = 0
     presentation = Builder.load_file("layout.kv")
-    get_level_thread = Thread(target = get_microphone_level)
+
+    # Start Plot thread
+    get_level_thread = Thread(target = get_gsr)
     get_level_thread.daemon = True
     get_level_thread.start()
     get_b_thread = Thread(target = get_b)
     get_b_thread.daemon = True
     get_b_thread.start()
+    get_c_thread = Thread(target = get_tmp)
+    get_c_thread.daemon = True
+    get_c_thread.start()
+
     ExperimentApp().run()
     timestr = time.strftime("%Y%m%d_%H%M%S")
     cmd = "ffmpeg -r "+str(10)+ " -i " +fileFolder+"\Webcam\Frames\IMG_%d.png -vcodec libx264 -pix_fmt yuv420p -r 60 "+fileFolder+"\Webcam\webcam1_"+timestr+".mp4"
