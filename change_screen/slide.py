@@ -1,6 +1,12 @@
 # encoding: utf-8
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.config import Config
+try:
+    Config.set("kivy", "window_icon", "C:\Users\HRI-Chubu\Documents\Therapy\\new_record\logo.ico")
+except:
+    pass
+    
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.properties import ObjectProperty
 from kivy.uix.widget import Widget
@@ -31,7 +37,7 @@ def get_b():
 
 def get_gsr():
     global gsr_data
-    gsr_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_gsr_20180724_055510'
+    gsr_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\CollectedData\\test\_E4_L_gsr_20180801_035111'
     while True:
         data_set = open(gsr_source, 'r')
         line_r = data_set.read()
@@ -45,7 +51,7 @@ def get_gsr():
 
 def get_tmp():
     global tmp_data
-    tmp_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_tmp_20180724_055510'
+    tmp_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\CollectedData\\test\_E4_L_tmp_20180801_035111'
     while True:
         data_set = open(tmp_source, 'r')
         line_r = data_set.read()
@@ -59,7 +65,7 @@ def get_tmp():
 
 def get_ibi():
     global ibi_data
-    ibi_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\\test\_E4_L_ibi_20180724_055510'
+    ibi_source = 'C:\Users\HRI-Chubu\Documents\Resenv-MA-MASensors-master\CollectedData\\test\_E4_L_ibi_20180801_035111'
     while True:
         data_set = open(tmp_source, 'r')
         line_r = data_set.read()
